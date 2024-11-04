@@ -2,6 +2,7 @@ name: vprofile actions
 on: workflow_dispatch
 env:
   AWS_REGION: us-east-1
+  EKS_AWS_REGION: us-east-2
   ECR_REPOSITORY: vprofile
   EKS_CLUSTER: vprofile-eks
 
@@ -83,10 +84,10 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ env.EKS_AWS_REGION }}
 
       - name: Get Kube config file
-        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
+        run: aws eks update-kubeconfig --region ${{ env.EKS_AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
 
       - name: Print config file
         run: cat ~/.kube/config
@@ -99,7 +100,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ env.EKS_AWS_REGION }}
           cluster-name: ${{ env.EKS_CLUSTER }}
           #config-files: .github/values/dev.yaml
           chart-path: helm/vprofilecharts
